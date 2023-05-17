@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>Java接口</title>
+      <title>Java进程</title>
       <link href="/2023/05/17/Java%E8%BF%9B%E7%A8%8B/"/>
       <url>/2023/05/17/Java%E8%BF%9B%E7%A8%8B/</url>
       
@@ -164,33 +164,6 @@
     
     
     <entry>
-      <title>Java泛型</title>
-      <link href="/2023/05/08/Java%E6%B3%9B%E5%9E%8B/"/>
-      <url>/2023/05/08/Java%E6%B3%9B%E5%9E%8B/</url>
-      
-        <content type="html"><![CDATA[<h1 id="泛型使用"><a href="#泛型使用" class="headerlink" title="泛型使用"></a>泛型使用</h1><p>泛型的本质是参数化类型<br>1、</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;T&gt;&#123;&#125; <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashSet</span>&lt;E&gt;&#123;&#125;</span><br></pre></td></tr></table></figure><p>T和E必须是引用类型不能是基本类型<br>2、使用</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;();</span><br><span class="line"><span class="comment">//后面可以直接缺省java编译器会帮我们自动推断</span></span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br></pre></td></tr></table></figure><p>3、如果不写默认为Object类</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span> <span class="variable">list</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br></pre></td></tr></table></figure><h1 id="自定义泛型"><a href="#自定义泛型" class="headerlink" title="自定义泛型"></a>自定义泛型</h1><h2 id="自定义泛型类"><a href="#自定义泛型类" class="headerlink" title="自定义泛型类"></a>自定义泛型类</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class&lt;T, E,&gt; 类名&#123;&#125;</span><br></pre></td></tr></table></figure><p>1、普通成员均可以使用泛型<br>2、静态成员不能使用泛型<br>3、泛型数组不能初始化<br>4、泛型的类型是在创建对象时确定的</p><h2 id="自定义泛型接口"><a href="#自定义泛型接口" class="headerlink" title="自定义泛型接口"></a>自定义泛型接口</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface 接口名 &lt;T, E,&gt; &#123;&#125;</span><br></pre></td></tr></table></figure><p>1、接口中的静态成员也不能使用泛型<br>2、接口中的泛型在继承接口或实现接口时确定类型<br>3、没有指定类型，默认Object</p><h2 id="自定义泛型方法"><a href="#自定义泛型方法" class="headerlink" title="自定义泛型方法"></a>自定义泛型方法</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修饰符 &lt;T, E,&gt; 返回类型 方法名（参数列表） &#123;&#125;</span><br></pre></td></tr></table></figure><p>1、泛型方法可以定义在普通类】也可以定义在泛型类<br>2、泛型方法在被调用时确定其类型<br>3、注意区别，方法使用泛型和泛型方法</p><h1 id="泛型的继承和通配"><a href="#泛型的继承和通配" class="headerlink" title="泛型的继承和通配"></a>泛型的继承和通配</h1><p>1、泛型不具备继承</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;:可以接收任何类型</span><br><span class="line">List&lt;? <span class="keyword">extends</span> <span class="title class_">Employee</span>&gt;:可以接收Employee的子类（包括非直接子类）</span><br><span class="line">List&lt;? <span class="built_in">super</span> Employee&gt;:可以接收Employee的父类（包括非直接父类）</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Java </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 专业课 </tag>
-            
-            <tag> JAVA </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Acwing周赛102</title>
       <link href="/2023/05/08/Acwing%E5%91%A8%E8%B5%9B102/"/>
       <url>/2023/05/08/Acwing%E5%91%A8%E8%B5%9B102/</url>
@@ -210,6 +183,33 @@
             <tag> 算法 </tag>
             
             <tag> 前后缀分解 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java泛型</title>
+      <link href="/2023/05/08/Java%E6%B3%9B%E5%9E%8B/"/>
+      <url>/2023/05/08/Java%E6%B3%9B%E5%9E%8B/</url>
+      
+        <content type="html"><![CDATA[<h1 id="泛型使用"><a href="#泛型使用" class="headerlink" title="泛型使用"></a>泛型使用</h1><p>泛型的本质是参数化类型<br>1、</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;T&gt;&#123;&#125; <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashSet</span>&lt;E&gt;&#123;&#125;</span><br></pre></td></tr></table></figure><p>T和E必须是引用类型不能是基本类型<br>2、使用</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;();</span><br><span class="line"><span class="comment">//后面可以直接缺省java编译器会帮我们自动推断</span></span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br></pre></td></tr></table></figure><p>3、如果不写默认为Object类</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span> <span class="variable">list</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br></pre></td></tr></table></figure><h1 id="自定义泛型"><a href="#自定义泛型" class="headerlink" title="自定义泛型"></a>自定义泛型</h1><h2 id="自定义泛型类"><a href="#自定义泛型类" class="headerlink" title="自定义泛型类"></a>自定义泛型类</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class&lt;T, E,&gt; 类名&#123;&#125;</span><br></pre></td></tr></table></figure><p>1、普通成员均可以使用泛型<br>2、静态成员不能使用泛型<br>3、泛型数组不能初始化<br>4、泛型的类型是在创建对象时确定的</p><h2 id="自定义泛型接口"><a href="#自定义泛型接口" class="headerlink" title="自定义泛型接口"></a>自定义泛型接口</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface 接口名 &lt;T, E,&gt; &#123;&#125;</span><br></pre></td></tr></table></figure><p>1、接口中的静态成员也不能使用泛型<br>2、接口中的泛型在继承接口或实现接口时确定类型<br>3、没有指定类型，默认Object</p><h2 id="自定义泛型方法"><a href="#自定义泛型方法" class="headerlink" title="自定义泛型方法"></a>自定义泛型方法</h2><p>语法格式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修饰符 &lt;T, E,&gt; 返回类型 方法名（参数列表） &#123;&#125;</span><br></pre></td></tr></table></figure><p>1、泛型方法可以定义在普通类】也可以定义在泛型类<br>2、泛型方法在被调用时确定其类型<br>3、注意区别，方法使用泛型和泛型方法</p><h1 id="泛型的继承和通配"><a href="#泛型的继承和通配" class="headerlink" title="泛型的继承和通配"></a>泛型的继承和通配</h1><p>1、泛型不具备继承</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;:可以接收任何类型</span><br><span class="line">List&lt;? <span class="keyword">extends</span> <span class="title class_">Employee</span>&gt;:可以接收Employee的子类（包括非直接子类）</span><br><span class="line">List&lt;? <span class="built_in">super</span> Employee&gt;:可以接收Employee的父类（包括非直接父类）</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 专业课 </tag>
+            
+            <tag> JAVA </tag>
             
         </tags>
       
