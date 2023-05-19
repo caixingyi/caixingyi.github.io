@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>数据库的恢复技术</title>
+      <link href="/2023/05/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%81%A2%E5%A4%8D%E6%8A%80%E6%9C%AF/"/>
+      <url>/2023/05/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%81%A2%E5%A4%8D%E6%8A%80%E6%9C%AF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="存储器结构"><a href="#存储器结构" class="headerlink" title="存储器结构"></a>存储器结构</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>1、易失性存储器：内存、高速缓冲存储器<br>2、非易失性存储器：磁盘、磁带<br>3、稳定存储器：理想的存储器，其中信息永不丢失</p><h2 id="稳定存储器的实现"><a href="#稳定存储器的实现" class="headerlink" title="稳定存储器的实现"></a>稳定存储器的实现</h2><p>要实现稳定存储器，就要在多个非易失性存储介质上以独立的故障模式复制所需要的信息，并且以某种受控的方式更新数据，以保证数据传送的过程中发生的故障不会破坏所需信息<br>采用冗余独立磁盘阵列（RAID）可以保证单个磁盘的故障不会导致数据丢失。</p><h2 id="数据访问"><a href="#数据访问" class="headerlink" title="数据访问"></a>数据访问</h2><p>数据库通常驻留在磁盘上，并且划分成固定长度的块。块是磁盘传送的基本单位，可能包含多个记录。<br>缓冲块是暂时驻留在主存中的块，物理块位于磁盘上.<br><img src="https://s2.loli.net/2023/05/19/dxkSlZ5GOY2UwBX.png" alt="8.png"><br><img src="https://s2.loli.net/2023/05/19/3s1nLVMHCtqOGzx.png" alt="9.png"></p><h1 id="基于日志的恢复技术"><a href="#基于日志的恢复技术" class="headerlink" title="基于日志的恢复技术"></a>基于日志的恢复技术</h1><h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>1、日志是日志记录的序列，记录了数据库中所有的更新活动。登记了每个事务的开始标记、结束标记、和所有更新操作<br>2、事务结束可能是正常提交（commit）、也可能是异常终止（abort）<br>3、事务的更新可能是插入、删除、更改<br><img src="https://s2.loli.net/2023/05/19/P7bkB3jYZUir2XK.png" alt="11.png"><br><img src="https://s2.loli.net/2023/05/19/iPIcnWoEyjKxhgB.png" alt="10.png"><br>登记日志的原则<br>1、日志记录必须严格按并发事务的时间次序登记<br>2、必须先记日记后写数据库</p><p>redo（Ti）：根据日志记录，登记日志的次序，将事务Ti每次更新的数据对象的新值用write操作重新写到数据库中。redo执行多次等价于执行一次<br>undo（Ti）：根据日志，按照登记日志的相反次序，将事务Ti每次更新的数据对象的旧值用write操作写回数据库。</p><h2 id="延迟更新"><a href="#延迟更新" class="headerlink" title="延迟更新"></a>延迟更新</h2><p>将对事务的更新推迟到事务提交之后遵循以下原则<br>（1）、每个事务在到达提交点之前不能更新数据库<br>（2）、在一个事务的所有更新操作的日志记录写入稳定存储器之前，该事务不能达到提交点</p><p>延迟更新技术只需要在日志中记录被更新数据对象的新值</p><h3 id="事务故障的处理："><a href="#事务故障的处理：" class="headerlink" title="事务故障的处理："></a>事务故障的处理：<img src="https://s2.loli.net/2023/05/19/Isqxb1g5RNcVmJY.png" alt="12.png"></h3><h3 id="系统故障的处理"><a href="#系统故障的处理" class="headerlink" title="系统故障的处理"></a>系统故障的处理</h3><p><img src="https://s2.loli.net/2023/05/19/AWti8x3QVlHmOkY.png" alt="13.png"><br><img src="https://s2.loli.net/2023/05/19/9YEgXCwrVPNTApO.png" alt="14.png"><br>对于（a）时刻：这时没有commit所有事务都未提交所以不用管<br>对于（b）时刻：T0commit所以对T0事务执行redo<br>c：T0、T1均commit执行redo</p><h2 id="即时更新"><a href="#即时更新" class="headerlink" title="即时更新"></a>即时更新</h2><p>允许事务在活跃状态时就将更新输出到数据库上。处于活动状态的事务直接在数据库上实施的更新称为非提交更新。遵循以下原则<br>（1）、在&lt;Ti， Xj， V1， V2&gt;安全地输出到稳定性存储器之前，事务Ti不能更新<br>（2）、在所有&lt;Ti， Xj， V1， V2&gt;类型的日志记录安全地输出到稳定存储器之前，不孕寻事务提交<br><img src="https://s2.loli.net/2023/05/19/R6bK9IF53tTEYPJ.png" alt="15.png"></p><h3 id="事务故障处理"><a href="#事务故障处理" class="headerlink" title="事务故障处理"></a>事务故障处理</h3><p><img src="https://s2.loli.net/2023/05/19/JjmWcPTFwlHkg85.png" alt="16.png"></p><h3 id="系统故障的处理-1"><a href="#系统故障的处理-1" class="headerlink" title="系统故障的处理"></a>系统故障的处理</h3><p><img src="https://s2.loli.net/2023/05/19/rX4zV8O19miqspK.png" alt="17.png"><br><img src="https://s2.loli.net/2023/05/19/uT3fSvqFnwByhc9.png" alt="18.png"></p><blockquote><p>延迟更新和即时更新对数据库的恢复的不同之处就是因为更新数据库的时间不同导致，延迟更新是用已经commit的去恢复，没有commit的我们本身没有对数据库操作也就不用恢复，而即时更新是我们在commit之前只要日志记录成功我们就可以更新数据库，一旦出现故障，那些没有commit的我们用记录中的旧值去更新，commit的用新值去更新。</p></blockquote><h1 id="基于检查点的恢复技术"><a href="#基于检查点的恢复技术" class="headerlink" title="基于检查点的恢复技术"></a>基于检查点的恢复技术</h1><p>对于系统故障恢复时，必须搜索日志，确定哪些事务是需要redo的，哪些事务是需要undo的，这个过程需要搜索整个日志，这里就会有两个问题<br>1、日志一般来说很大，搜索起来很耗时<br>2、有些事务已经写入数据库，再次执行redo虽然不会错，但是会耗时<br>检查点技术的使用就很好的解决了这两个问题<br>通过定期建立检查点来解决<br><img src="https://s2.loli.net/2023/05/19/BykogiKSUsFPNtv.png" alt="21.png"><br>基于即时更新的检查点恢复过程<br><img src="https://s2.loli.net/2023/05/19/5blHwdazZtniBPI.png" alt="22.png"><br><img src="https://s2.loli.net/2023/05/19/9Q4IPJL3GSl8eHr.png" alt="23.png"><br><img src="https://s2.loli.net/2023/05/19/vByPh4NSRaLw2qM.png" alt="19.png"><br><img src="https://s2.loli.net/2023/05/19/WOdBYShrF9wvLfH.png" alt="20.png"></p><h1 id="介质故障恢复技术"><a href="#介质故障恢复技术" class="headerlink" title="介质故障恢复技术"></a>介质故障恢复技术</h1><p>虽然介质故障不常见但危害巨大<br>首先说一下转储的概念<br>转储是指将整个或部分数据库复制到磁带或另一个磁盘上，产生数据库后备副本的过程。根据转储时是否允许事务运行可以分为静态转储和动态转储<br>静态转储<br><img src="https://s2.loli.net/2023/05/19/ogkKmyYnU9dVNLI.png" alt="24.png"><br>动态转储<br><img src="https://s2.loli.net/2023/05/19/z1PXSJLgVGo6rUq.png" alt="25.png"><br>海量转储和增量转储<br><img src="https://s2.loli.net/2023/05/19/xpPUBzNgRQye63S.png" alt="26.png"><br><img src="https://s2.loli.net/2023/05/19/x9swh3Z2Jcglodm.png" alt="27.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 专业课 </tag>
+            
+            <tag> 数据库 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>总线</title>
       <link href="/2023/05/17/%E6%80%BB%E7%BA%BF/"/>
       <url>/2023/05/17/%E6%80%BB%E7%BA%BF/</url>
